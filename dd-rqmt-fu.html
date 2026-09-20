@@ -97,7 +97,7 @@
         .header__title {
             font-family: var(--font-headline);
             font-size: clamp(1.5rem, 6vw, 2.5rem);
-            font-weight: 400;
+            font-weight: 500;
             color: var(--primary);
             letter-spacing: -0.03em;
             margin-bottom: 8px;
@@ -105,9 +105,9 @@
 
         .header__subtitle {
             font-family: var(--font-headline);
-            font-size: clamp(1rem, 2vw, 1.rem);
+            font-size: clamp(1rem, 4vw, 1.3rem);
             color: var(--on-surface-variant);
-            font-style: bold;
+            font-style: italic;
             margin-bottom: 25px;
         }
 
@@ -165,6 +165,7 @@
             font-family: var(--font-label);
             font-size: 1rem;
             resize: vertical;
+            overflow-y: hidden;
         }
 
         .main-textarea:focus {
@@ -210,7 +211,7 @@
 
         .prompt-textarea {
             width: 100%;
-            min-height: 450px;
+            min-height: 150px;
             background: var(--surface-container-lowest);
             border: 1px solid var(--outline-variant);
             border-radius: 12px;
@@ -272,34 +273,18 @@
         <div class="container">
             <h1 class="header__title">Dumb Dock & Structure Settings</h1>
             <h2 class="header__subtitle">কনটেন্ট স্ট্রাকচার ও রিকোয়ারমেন্ট</h2>
-            <a href="source-analysis.html" target="_blank" class="header-btn">Source Analysis</a>
-            <a href="source-analysis-nblm.html" target="_blank" class="header-btn">Source Analysis (NBLM)</a>
-            <a href="process-n-reasoning.html" target="_blank" class="header-btn">Process-N-Reason</a><br /><br />
-            <a href="identify.html" target="_blank" class="header-btn">Requirement</a>
-            <a href="dd-rqmt-fu.html" target="_blank" class="header-btn">Requirement1</a>
-            <a href="review.html" target="_blank" class="header-btn">Review</a>
-            <a href="book.html" target="_blank" class="header-btn">Book</a>
-            <a href="6l.html" target="_blank" class="header-btn">Lenses</a><br /><br />
-
-            <a href="help.html" target="_blank" class="header-btn">Help</a>
+            <a href="https://spmohq.github.io/atmn/identify.html" target="_blank" class="header-btn">Requirement Follow-up</a>
         </div>
     </header>
 
     <div class="container">
         
-        <!-- DYNAMIC INPUT FIELDS -->
+        <!-- DYNAMIC INPUT FIELD -->
         <section class="input-section">
-            
-            <div class="input-card">
-                <label class="input-label">[Dumb Doc]</label>
-                <textarea id="dumbDocInput" class="main-textarea dynamic-textarea" placeholder="Paste or type [Dumb Doc] here..."></textarea>
-            </div>
-
             <div class="input-card">
                 <label class="input-label">[Requirement]</label>
-                <textarea id="requirementInput" class="main-textarea dynamic-textarea" placeholder="Paste or type [Requirement] here..."></textarea>
+                <textarea id="reqInput" class="main-textarea dynamic-textarea" placeholder="[Requirement]"></textarea>
             </div>
-
         </section>
 
         <!-- PROMPT -->
@@ -308,7 +293,7 @@
                 <div class="prompt-number">1</div>
                 <h2 class="prompt-title">Prompt</h2>
             </div>
-            <textarea id="promptOutput" class="prompt-textarea" readonly></textarea>
+            <textarea id="promptOutput" class="prompt-textarea dynamic-textarea" readonly>আমাকে এই proposed content-এর জন্য যেটা [Requirement], আলোচনার মাধ্যমে তা বিশ্লেষণ ও identify করতে সাহায্য করুন।</textarea>
             <button class="copy-button" onclick="copyPrompt(this)">Copy Prompt</button>
         </div>
 
@@ -321,84 +306,46 @@
     </footer>
 
     <script>
-        const dumbDocInput = document.getElementById("dumbDocInput");
-        const requirementInput = document.getElementById("requirementInput");
+        const originalPromptTemplate = "আমাকে এই proposed content-এর জন্য যেটা [Requirement], আলোচনার মাধ্যমে তা বিশ্লেষণ ও identify করতে সাহায্য করুন।";
+        const reqInput = document.getElementById("reqInput");
         const promptOutput = document.getElementById("promptOutput");
 
-        // Template generator function
-        function updatePrompt() {
-            const dumbDoc = dumbDocInput.value.trim() || "[Dumb Doc]";
-            const requirement = requirementInput.value.trim() || "[Requirement]";
-
-            promptOutput.value = `${dumbDoc}
-
-উপরের এই টেক্সট-র ভিত্তিতে আমি একটা কনটেন্ট লিখবো।
-
-CONTENT TYPE:
- 
-Question-Driven Actuality Unfolding through Reasoning, in the conversational mode of “One-to-One Intellectual Conversation”
-
-RULES (MANDATORY)
-
-Core Content Development System:
-
-Topic (Reader যে লোকবিশ্বাস, লোকসংস্কৃতি ও লোকাচারের ভিত্তিতে জীবনকে দেখছে এবং যাকে সে সত্য বলে গ্রহণ করছে।)
- ↓
-Content Task (১. Reader যে বিষয়টিকে সত্য বলে ভ্রম করছে, সেটি আসলে তার জন্য মিথ্যা ও আত্মঘাতী—তা establish করা। ২. প্রকৃত সত্য কী, তা reveal করা এবং কেন সেটিই প্রকৃত সত্য—তা establish করা।)
- ↓
-Objective (Reader-এর অনুভবে এই উপলব্ধি জাগানো যে, যাকে সে সত্য বলে ভ্রম করছে, সেটিই আসলে তার জন্য মিথ্যা ও আত্মঘাতী।)
- ↓
-Expected Outcome (Reader নিজের বিশ্বাসের মধ্যে থাকা সেই ভুলটি চিনতে ও তার মারক/ঘাতক চরিত্র বুঝতে পারে এবং লোকবিশ্বাস ও লোকসংস্কৃতির সেই ধাঁধা থেকে নিজেকে আলাদা করে নিতে পারে—ফলে তার হারানো শান্তি, আনন্দ ও সুখ ফিরে পাওয়ার সুযোগ তৈরি হয়।)
-
-Reason Unfolding Strategy:
-
-আমার উদ্দেশ্য argument-কে unfold না করে সরাসরি conclusion-কে reader-এর সামনে পৌঁছে দেওয়া নয়।
-আমি কোনওভাবেই চাই না content-টি শেষ পর্যন্ত একটি উপদেশমূলক framework-এ পরিণত হোক।
-আমার কাজের মূল বৈশিষ্ট্য ও শক্তি হল—একটি প্রশ্ন থেকে পরবর্তী প্রশ্নকে logically necessary করে তোলা।
-আমার কাঙ্ক্ষিত পদ্ধতি হল:
-প্রতিটি ধাপে reader-কে এমন একটি অবস্থায় নিয়ে যেতে হবে যেখানে আগের explanation আর পরবর্তী প্রশ্নের উত্তর দেওয়ার জন্য পুরোপুরি যথেষ্ট থাকে না। সেই insufficiency থেকেই পরবর্তী প্রশ্নের প্রয়োজন তৈরি হবে।
-অর্থাৎ:
-প্রতিটি assertion-এর আগে তার প্রয়োজনীয় reasoning তৈরি হবে।
-প্রতিটি নতুন concept তখনই আসবে, যখন আগের reasoning সেটিকে logically necessary করে তুলবে।
-প্রতিটি answer এমনভাবে তৈরি হবে, যাতে তার মধ্য থেকেই পরবর্তী necessary question-এর জন্ম হয়।
-ফলে content-এর নতুন chapter/section শুধুমাত্র topic পরিবর্তনের কারণে শুরু হবে না। আগের chapter/section-এর explanation যখন পরবর্তী প্রশ্নের উত্তর দেওয়ার জন্য আর যথেষ্ট থাকবে না, তখন সেই insufficiency থেকে যে প্রশ্নটি স্বাভাবিকভাবে উঠে আসবে, সেই প্রশ্নই পরবর্তী chapter/section-এর জন্ম দেবে।
-আমার লক্ষ্য হল reader-কে এমন একটি intellectual journey-র মধ্যে দিয়ে নিয়ে যাওয়া, যার শেষে reader নিজেই বলতে পারেন:
-“আচ্ছা, তাহলে ব্যাপারটা এখানে!”
-এটাই আমার কাছে One-to-One Intellectual Conversation-এর আরও গভীর অর্থ।
-
-TASK
-
-আমাকে এই proposed content-এর জন্য যেটা ${requirement}, আলোচনার মাধ্যমে তা বিশ্লেষণ ও identify করতে সাহায্য করুন।`;
+        function autoResize(el) {
+            el.style.height = "auto";
+            el.style.height = (el.scrollHeight) + "px";
         }
 
-        // Auto-Resize logic for Textareas
-        const tx = document.querySelectorAll(".dynamic-textarea");
-        tx.forEach(textarea => {
-            textarea.addEventListener("input", function() {
-                this.style.height = "auto";
-                this.style.height = this.scrollHeight + "px";
-                updatePrompt();
-            });
+        // Initialize auto-resize
+        autoResize(reqInput);
+        autoResize(promptOutput);
+
+        // Bind dynamic replacement and resize
+        reqInput.addEventListener("input", function() {
+            autoResize(this);
+
+            const val = this.value.trim();
+            if (val.length > 0) {
+                promptOutput.value = originalPromptTemplate.replace("[Requirement]", val);
+            } else {
+                promptOutput.value = originalPromptTemplate;
+            }
+
+            autoResize(promptOutput);
         });
 
-        // Initialize template on page load
-        updatePrompt();
-
-        // Modern clipboard copy with legacy fallback
-        async function copyPrompt(button) {
+        // Copy Prompt Logic
+        function copyPrompt(button) {
+            const textarea = button.previousElementSibling;
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            
             try {
-                if (navigator.clipboard && window.isSecureContext) {
-                    await navigator.clipboard.writeText(promptOutput.value);
-                } else {
-                    promptOutput.select();
-                    promptOutput.setSelectionRange(0, 99999);
-                    document.execCommand('copy');
-                    window.getSelection().removeAllRanges();
-                }
-
+                document.execCommand('copy');
                 const originalText = button.innerHTML;
                 button.innerHTML = '&#10003; Copied!';
                 button.classList.add('copied');
+                
+                window.getSelection().removeAllRanges();
 
                 setTimeout(() => {
                     button.innerHTML = originalText;

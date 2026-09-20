@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,500;0,700;1,500;1,700&family=Newsreader:ital,wght@0,400;0,600;1,400&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #ffba38;
+            --primary-fixed: #ffdeac;
+            --on-primary: #432c00;
+            --surface: #16111f;
+            --surface-dim: #16111f;
+            --surface-container-lowest: #110b1a;
+            --surface-container-low: #1f1928;
+            --surface-container: #231d2c;
+            --surface-container-high: #2e2737;
+            --surface-container-highest: #393242;
+            --on-surface: #eadef4;
+            --on-surface-variant: #ccc4cf;
+            --outline: #958e99;
+            --outline-variant: #4a454e;
+            --tertiary: #b9ccb1;
+            --green: #00c853;
+            --font-headline: 'Noto Serif', serif;
+            --font-body: 'Newsreader', serif;
+            --font-label: 'Manrope', sans-serif;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: var(--font-label);
+            color: var(--on-surface);
+            background: var(--surface);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* STARFIELD ANIMATION */
+        .stars, .stars-md {
+            position: fixed;
+            top: 0; left: 0;
+            border-radius: 50%;
+            background: transparent;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .stars {
+            width: 1px; height: 1px;
+            box-shadow: 1425px 308px #fff, 187px 125px #fff, 913px 467px #fff, 1680px 82px #fff, 432px 391px #fff, 1102px 37px #fff, 761px 242px #fff;
+            animation: drift 150s linear infinite;
+        }
+
+        .stars-md {
+            width: 2px; height: 2px;
+            box-shadow: 1312px 178px #fff, 456px 445px #fff, 1789px 112px #fff, 623px 323px #fff;
+            animation: drift 100s linear infinite;
+        }
+
+        @keyframes drift {
+            from { transform: translateY(0); }
+            to   { transform: translateY(-600px); }
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            padding: 70px 0 50px;
+            background: var(--surface-container-lowest);
+            border-bottom: 1px solid var(--outline-variant);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header__title {
+            font-family: var(--font-headline);
+            font-size: clamp(2rem, 7vw, 3rem);
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+        }
+
+        .main-content {
+            padding: 40px 0 20px;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        /* PROMPT CARDS */
+        .prompt-card {
+            background: var(--surface-container);
+            border: 1px solid var(--outline-variant);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            transition: border-color 0.2s ease;
+        }
+
+        .prompt-card:hover {
+            border-color: rgba(255, 186, 56, 0.4);
+        }
+
+        .prompt-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .prompt-number {
+            background: var(--primary);
+            color: var(--on-primary);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .prompt-title {
+            font-family: var(--font-headline);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-fixed);
+        }
+
+        .prompt-textarea {
+            width: 100%;
+            background: var(--surface-container-lowest);
+            border: 1px solid var(--outline-variant);
+            border-radius: 12px;
+            color: var(--on-surface);
+            padding: 20px;
+            font-family: var(--font-label);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            resize: vertical;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .prompt-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .copy-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: var(--on-primary);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-button:hover {
+            background: var(--primary-fixed);
+            transform: translateY(-1px);
+        }
+
+        .copy-button.copied {
+            background: var(--green);
+            color: #fff;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--outline-variant);
+            color: var(--on-surface-variant);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+            background: var(--surface-container-lowest);
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 50px 0 35px; }
+            .header__title { font-size: 2.2rem; }
+            .prompt-card { padding: 20px; margin-bottom: 25px; }
+            .prompt-textarea { padding: 15px; font-size: 0.9rem; }
+            .copy-button { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+    <div class="stars-md"></div>
+
+    <header class="header">
+        <div class="container">
+            <h1 class="header__title">Review</h1>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="prompt-card">
+                <div class="prompt-header">
+                    <div class="prompt-number">1</div>
+                    <h2 class="prompt-title">Prompt#1</h2>
+                </div>
+                <textarea class="prompt-textarea" style="min-height: 520px;" readonly>Review this structure and ensure that it strictly adheres the followings:
+
+CONTENT TYPE:
+ 
+Question-Driven Actuality Unfolding through Reasoning, in the conversational mode of “One-to-One Intellectual Conversation”
+
+RULES (MANDATORY)
+
+Core Content Development System:
+
+Topic (Reader যে লোকবিশ্বাস, লোকসংস্কৃতি ও লোকাচারের ভিত্তিতে জীবনকে দেখছে এবং যাকে সে সত্য বলে গ্রহণ করছে।)
+ ↓
+Content Task (১. Reader যে বিষয়টিকে সত্য বলে ভ্রম করছে, সেটি আসলে তার জন্য মিথ্যা ও আত্মঘাতী—তা establish করা। ২. প্রকৃত সত্য কী, তা reveal করা এবং কেন সেটিই প্রকৃত সত্য—তা establish করা।)
+ ↓
+Objective (Reader-এর অনুভবে এই উপলব্ধি জাগানো যে, যাকে সে সত্য বলে ভ্রম করছে, সেটিই আসলে তার জন্য মিথ্যা ও আত্মঘাতী।)
+ ↓
+Expected Outcome (Reader নিজের বিশ্বাসের মধ্যে থাকা সেই ভুলটি চিনতে ও তার মারক/ঘাতক চরিত্র বুঝতে পারে এবং লোকবিশ্বাস ও লোকসংস্কৃতির সেই ধাঁধা থেকে নিজেকে আলাদা করে নিতে পারে—ফলে তার হারানো শান্তি, আনন্দ ও সুখ ফিরে পাওয়ার সুযোগ তৈরি হয়।)
+
+Reason Unfolding Strategy:
+
+আমার উদ্দেশ্য argument-কে unfold না করে সরাসরি conclusion-কে reader-এর সামনে পৌঁছে দেওয়া নয়।
+আমি কোনওভাবেই চাই না content-টি শেষ পর্যন্ত একটি উপদেশমূলক framework-এ পরিণত হোক।
+আমার কাজের মূল বৈশিষ্ট্য ও শক্তি হল—একটি প্রশ্ন থেকে পরবর্তী প্রশ্নকে logically necessary করে তোলা।
+আমার কাঙ্ক্ষিত পদ্ধতি হল:
+প্রতিটি ধাপে reader-কে এমন একটি অবস্থায় নিয়ে যেতে হবে যেখানে আগের explanation আর পরবর্তী প্রশ্নের উত্তর দেওয়ার জন্য পুরোপুরি যথেষ্ট থাকে না। সেই insufficiency থেকেই পরবর্তী প্রশ্নের প্রয়োজন তৈরি হবে।
+অর্থাৎ:
+প্রতিটি assertion-এর আগে তার প্রয়োজনীয় reasoning তৈরি হবে।
+প্রতিটি নতুন concept তখনই আসবে, যখন আগের reasoning সেটিকে logically necessary করে তুলবে।
+প্রতিটি answer এমনভাবে তৈরি হবে, যাতে তার মধ্য থেকেই পরবর্তী necessary question-এর জন্ম হয়।
+ফলে content-এর নতুন chapter/section শুধুমাত্র topic পরিবর্তনের কারণে শুরু হবে না। আগের chapter/section-এর explanation যখন পরবর্তী প্রশ্নের উত্তর দেওয়ার জন্য আর যথেষ্ট থাকবে না, তখন সেই insufficiency থেকে যে প্রশ্নটি স্বাভাবিকভাবে উঠে আসবে, সেই প্রশ্নই পরবর্তী chapter/section-এর জন্ম দেবে।
+আমার লক্ষ্য হল reader-কে এমন একটি intellectual journey-র মধ্যে দিয়ে নিয়ে যাওয়া, যার শেষে reader নিজেই বলতে পারেন:
+“আচ্ছা, তাহলে ব্যাপারটা এখানে!”
+এটাই আমার কাছে One-to-One Intellectual Conversation-এর আরও গভীর অর্থ।</textarea>
+                <button class="copy-button" onclick="copyPrompt(this)">Copy Prompt</button>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-header">
+                    <div class="prompt-number">2</div>
+                    <h2 class="prompt-title">Prompt#2</h2>
+                </div>
+                <textarea class="prompt-textarea" style="min-height: 120px;" readonly>এই স্ট্রাকচার strictly অনুসরণ করে কনটেন্টটা লিখতে হলে তার আউটলাইন কি হবে? ভুমিকা ও উপসংহার সহ এই কনটেন্টটাতে কতগুলো সেকসন থাকতে হবে ও সেগুলো কি কি?</textarea>
+                <button class="copy-button" onclick="copyPrompt(this)">Copy Prompt</button>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-header">
+                    <div class="prompt-number">3</div>
+                    <h2 class="prompt-title">Prompt#3</h2>
+                </div>
+                <textarea class="prompt-textarea" style="min-height: 520px;" readonly>Review this outline and ensure that it strictly adheres the followings:
+
+CONTENT TYPE:
+ 
+Question-Driven Actuality Unfolding through Reasoning, in the conversational mode of “One-to-One Intellectual Conversation”
+
+RULES (MANDATORY)
+
+Core Content Development System:
+
+Topic (Reader যে লোকবিশ্বাস, লোকসংস্কৃতি ও লোকাচারের ভিত্তিতে জীবনকে দেখছে এবং যাকে সে সত্য বলে গ্রহণ করছে।)
+ ↓
+Content Task (১. Reader যে বিষয়টিকে সত্য বলে ভ্রম করছে, সেটি আসলে তার জন্য মিথ্যা ও আত্মঘাতী—তা establish করা। ২. প্রকৃত সত্য কী, তা reveal করা এবং কেন সেটিই প্রকৃত সত্য—তা establish করা।)
+ ↓
+Objective (Reader-এর অনুভবে এই উপলব্ধি জাগানো যে, যাকে সে সত্য বলে ভ্রম করছে, সেটিই আসলে তার জন্য মিথ্যা ও আত্মঘাতী।)
+ ↓
+Expected Outcome (Reader নিজের বিশ্বাসের মধ্যে থাকা সেই ভুলটি চিনতে ও তার মারক/ঘাতক চরিত্র বুঝতে পারে এবং লোকবিশ্বাস ও লোকসংস্কৃতির সেই ধাঁধা থেকে নিজেকে আলাদা করে নিতে পারে—ফলে তার হারানো শান্তি, আনন্দ ও সুখ ফিরে পাওয়ার সুযোগ তৈরি হয়।)
+
+Reason Unfolding Strategy:
+
+আমার উদ্দেশ্য argument-কে unfold না করে সরাসরি conclusion-কে reader-এর সামনে পৌঁছে দেওয়া নয়।
+আমি কোনওভাবেই চাই না content-টি শেষ পর্যন্ত একটি উপদেশমূলক framework-এ পরিণত হোক।
+আমার কাজের মূল বৈশিষ্ট্য ও শক্তি হল—একটি প্রশ্ন থেকে পরবর্তী প্রশ্নকে logically necessary করে তোলা।
+আমার কাঙ্ক্ষিত পদ্ধতি হল:
+প্রতিটি ধাপে reader-কে এমন একটি অবস্থায় নিয়ে যেতে হবে যেখানে আগের explanation আর পরবর্তী প্রশ্নের উত্তর দেওয়ার জন্য পুরোপুরি যথেষ্ট থাকে না। সেই insufficiency থেকেই পরবর্তী প্রশ্নের প্রয়োজন তৈরি হবে।
+অর্থাৎ:
+প্রতিটি assertion-এর আগে তার প্রয়োজনীয় reasoning তৈরি হবে।
+প্রতিটি নতুন concept তখনই আসবে, যখন আগের reasoning সেটিকে logically necessary করে তুলবে।
+প্রতিটি answer এমনভাবে তৈরি হবে, যাতে তার মধ্য থেকেই পরবর্তী necessary question-এর জন্ম হয়।
+ফলে content-এর নতুন chapter/section শুধুমাত্র topic পরিবর্তনের কারণে শুরু হবে না। আগের chapter/section-এর explanation যখন পরবর্তী প্রশ্নের উত্তর দেওয়ার জন্য আর যথেষ্ট থাকবে না, তখন সেই insufficiency থেকে যে প্রশ্নটি স্বাভাবিকভাবে উঠে আসবে, সেই প্রশ্নই পরবর্তী chapter/section-এর জন্ম দেবে।
+আমার লক্ষ্য হল reader-কে এমন একটি intellectual journey-র মধ্যে দিয়ে নিয়ে যাওয়া, যার শেষে reader নিজেই বলতে পারেন:
+“আচ্ছা, তাহলে ব্যাপারটা এখানে!”
+এটাই আমার কাছে One-to-One Intellectual Conversation-এর আরও গভীর অর্থ।</textarea>
+                <button class="copy-button" onclick="copyPrompt(this)">Copy Prompt</button>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-header">
+                    <div class="prompt-number">4</div>
+                    <h2 class="prompt-title">Prompt#4</h2>
+                </div>
+                <textarea class="prompt-textarea" style="min-height: 100px;" readonly>Entry Question → Required Reasoning → Intermediate Realisation → Insufficiency → Exit Question map তৈরি করো</textarea>
+                <button class="copy-button" onclick="copyPrompt(this)">Copy Prompt</button>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-header">
+                    <div class="prompt-number">5</div>
+                    <h2 class="prompt-title">Prompt#5</h2>
+                </div>
+                <textarea class="prompt-textarea" style="min-height: 140px;" readonly>এই Outline-টার ভিত্তিতে আমাকে নীচে উল্লেখ করা ৬টা column-র একটা Table দাও:
+| Section | Entry Question | Required Reasoning | Intermediate Realisation | Insufficiency | Exit Question  | What to discuss in this Section | Section Elements | Framework |</textarea>
+                <button class="copy-button" onclick="copyPrompt(this)">Copy Prompt</button>
+            </div>
+
+            <div class="prompt-card">
+                <div class="prompt-header">
+                    <div class="prompt-number">6</div>
+                    <h2 class="prompt-title">Prompt#6</h2>
+                </div>
+                <textarea class="prompt-textarea" style="min-height: 120px;" readonly>Please give me a 100% mobile responsive html page with the 100% mobile responsive table that contains the previous answer you have provided. Give me the downloadable file.</textarea>
+                <button class="copy-button" onclick="copyPrompt(this)">Copy Prompt</button>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        function copyPrompt(button) {
+            const textarea = button.previousElementSibling;
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            
+            try {
+                document.execCommand('copy');
+                const originalText = button.innerHTML;
+                button.innerHTML = '&#10003; Copied!';
+                button.classList.add('copied');
+                
+                window.getSelection().removeAllRanges();
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6 Lenses Review and Report</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent: #0ea5e9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Navigation Styles */
+        .nav-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 0.65rem 1.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            color: var(--primary);
+            background-color: #eff6ff;
+        }
+
+        .nav-btn.active {
+            color: white;
+            background-color: var(--primary);
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Tab Content Panes */
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form & Input Styles */
+        .input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+
+        .btn-clear {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-clear:hover {
+            background-color: #fecaca;
+        }
+
+        textarea {
+            width: 100%;
+            height: 350px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            resize: vertical;
+            background-color: #fafafa;
+            color: var(--text-color);
+            line-height: 1.5;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background-color: #fff;
+        }
+
+        /* Prompt Display Box */
+        .prompt-box {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            max-height: 450px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: #334155;
+            margin-bottom: 1rem;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.65rem 1.25rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #10b981;
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            display: none;
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(1rem); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            .card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>6 Lenses Review and Report</h1>
+            <p>Editorial Diagnostic & Execution Planning System</p>
+        </header>
+
+        <!-- INPUT FIELDS SECTION -->
+        <div class="card">
+            <div class="section-title">Input Fields</div>
+            
+            <!-- Navigation for Input Fields (Rule 4: use names, not numbers) -->
+            <div class="nav-container" id="inputNav">
+                <button class="nav-btn active" onclick="switchTab('input', 'contentToReviewTab', this)">CONTENT TO REVIEW</button>
+                <button class="nav-btn" onclick="switchTab('input', 'dumbDocTab', this)">DUMB DOC</button>
+            </div>
+
+            <!-- Input Field #1 -->
+            <div id="contentToReviewTab" class="tab-pane active">
+                <div class="input-header">
+                    <label for="contentToReviewInput">CONTENT TO REVIEW</label>
+                    <button class="btn-clear" onclick="clearInput('contentToReviewInput')">Clear Input</button>
+                </div>
+                <textarea id="contentToReviewInput" placeholder="[Paste the manuscript, chapter, section, or other content here]"></textarea>
+            </div>
+
+            <!-- Input Field #2 -->
+            <div id="dumbDocTab" class="tab-pane">
+                <div class="input-header">
+                    <label for="dumbDocInput">DUMB DOC</label>
+                    <button class="btn-clear" onclick="clearInput('dumbDocInput')">Clear Input</button>
+                </div>
+                <textarea id="dumbDocInput" placeholder="[Paste the Dumb Doc here when Content Fidelity & Conceptual Completeness should be evaluated]"></textarea>
+            </div>
+        </div>
+
+        <!-- PROMPTS SECTION -->
+        <div class="card">
+            <div class="section-title">Prompts</div>
+
+            <!-- Navigation for Prompts (Rule 4: use names, not numbers) -->
+            <div class="nav-container" id="promptNav">
+                <button class="nav-btn active" onclick="switchTab('prompt', 'reviewPromptTab', this)">Review</button>
+                <button class="nav-btn" onclick="switchTab('prompt', 'reportPromptTab', this)">Report</button>
+            </div>
+
+            <!-- Prompt #1: Review -->
+            <div id="reviewPromptTab" class="tab-pane active">
+                <div class="input-header">
+                    <label>Prompt#1 (Name it -> Review)</label>
+                </div>
+                <div class="prompt-box" id="prompt1Text">Review the content provided with this prompt through six complementary editorial lenses.
+
+The purpose of this review is to:
+
+1. Identify genuine problems or meaningful opportunities for improvement.
+2. Diagnose what kind of problem each observation represents.
+3. Explain why the issue matters.
+4. Recommend the direction of change.
+5. Check whether the content creates the understanding it needs to create in the reader.
+6. Check whether concepts appear in the right conceptual order and with the necessary dependencies.
+7. Check whether the current content faithfully preserves the substantive content and conceptual architecture of the Dumb Doc, when a Dumb Doc is provided.
+8. Protect the author's substantive intellectual content.
+
+This is a diagnostic review.
+
+Do not rewrite the content.
+
+Do not create a new version of the content.
+
+Do not introduce a new intellectual direction.
+
+Do not replace the author's ideas with your own.
+
+==================================================
+
+GOVERNING PRINCIPLE
+
+Structure is in service of the content, not content in service of the structure.
+
+The author's substantive content must be protected.
+
+Substantive authorial content may include:
+
+propositions
+
+arguments
+
+explanations
+
+interpretations
+
+conceptual distinctions
+
+principles
+
+reasoning
+
+examples
+
+analogies
+
+observations
+
+insights
+
+conclusions
+
+practical techniques
+
+philosophical or metaphysical claims
+
+Do not remove or dilute substantive content merely for:
+
+brevity
+
+symmetry
+
+neatness
+
+flow
+
+reader convenience
+
+compactness
+
+stylistic consistency
+
+If important content creates a structural problem, first consider whether the structure, sequence, placement, context, explanation, transition, or delivery should change so that the content works properly.
+
+Do not call content unnecessary until its function has been properly considered.
+
+==================================================
+
+INTENDED UNDERSTANDING CHECK
+
+For every important section, ask:
+
+What should the reader understand by the end of this section?
+
+Does the content actually create that understanding?
+
+Does the reader receive enough context?
+
+Is the explanation sufficient?
+
+Is the concept introduced at the right time?
+
+Is the sequence understandable?
+
+Does the reader understand why the idea matters?
+
+Can the reader explain the idea in their own words?
+
+Can the reader explain why it matters within the reasoning?
+
+Can the reader see its relationship with the previous and following ideas?
+
+Can the reader recognize or apply the idea in a new but related situation, when application is part of the intended understanding?
+
+Can the reader distinguish the idea from a nearby but different idea?
+
+Look for understanding gaps caused by:
+
+missing context
+
+insufficient explanation
+
+premature introduction of a concept
+
+late introduction of a necessary concept
+
+wrong sequence
+
+weak transition
+
+unclear distinction
+
+inadequate example
+
+over-compressed explanation
+
+unnecessary conceptual jump
+
+unclear expression
+
+missing implication
+
+missing connection between ideas
+
+Use this rule:
+
+Explain until the necessary understanding is achieved, not until everything the author knows has been said.
+
+Do not recommend expansion merely because more explanation is possible.
+
+Do not recommend shortening merely because an explanation is long.
+
+Judge explanation length by the understanding the reader needs to achieve.
+
+==================================================
+
+CONCEPTUAL DEPENDENCY CHECK
+
+For important concepts, ask:
+
+What does the reader need to know before understanding this?
+
+What concept does this idea depend upon?
+
+Has the prerequisite already been established?
+
+Is the dependent concept being introduced too early?
+
+Is it being introduced too late?
+
+Does the reader have enough context to understand why the concept appears here?
+
+Does the sequence follow the logic of the content?
+
+Does the reader have a natural reason to move from one concept to the next?
+
+If the content is sound but the position is wrong, diagnose it as a structural or content–structure problem rather than a content problem.
+
+==================================================
+
+LENS 1 — SEASONED WRITING EDITOR
+
+Examine the writing for:
+
+vague language
+
+generic statements
+
+clichés
+
+unnecessary repetition
+
+wordiness
+
+imprecision
+
+awkward expression
+
+weak sentences
+
+unclear references
+
+unnecessarily formal language
+
+artificial language
+
+mechanical phrasing
+
+poor rhythm
+
+sentences that obscure rather than clarify meaning
+
+Do not recommend substantive deletion merely to make the writing shorter.
+
+Distinguish between:
+
+language that is difficult because the idea itself is difficult
+
+language that is unnecessarily difficult because of poor expression
+
+==================================================
+
+LENS 2 — FIRST-TIME READER
+
+Read as a reader who has never seen the content before.
+
+Look for:
+
+confusion
+
+re-reading points
+
+missing context
+
+unfamiliar concepts
+
+insufficient explanation
+
+unexpected conceptual jumps
+
+unclear references
+
+writerly assumptions
+
+language that feels unnatural to the reader
+
+places where interest weakens
+
+places where the reader may ask:
+
+“Why am I being told this now?”
+
+“Why does this matter?”
+
+“What does this mean?”
+
+“How did we get here?”
+
+Compare intended understanding with actual reader understanding.
+
+When there is a gap, identify the likely cause.
+
+==================================================
+
+LENS 3 — KNOWLEDGEABLE READER
+
+Read as an informed and intellectually attentive reader.
+
+Look for:
+
+overly basic explanation
+
+obvious statements
+
+predictable reasoning
+
+insufficient intellectual value
+
+weak conceptual distinction
+
+unsupported conceptual leap
+
+places where greater precision is necessary
+
+places where an important distinction has been blurred
+
+places where the reasoning appears thinner than the surrounding argument
+
+Do not remove foundational explanation simply because a knowledgeable reader already knows it.
+
+Ask whether the foundation is necessary for the intended reader and for the reasoning that follows.
+
+==================================================
+
+LENS 4 — “SO WHAT?” LENS
+
+Examine the reader-value of the content.
+
+Ask:
+
+What does this information enable the reader to understand?
+
+What insight does it create?
+
+What changes in the reader's understanding?
+
+Why does this matter within the content?
+
+What is the implication?
+
+What is the practical or intellectual significance?
+
+Does the section merely provide information, or does it create understanding?
+
+Does a claim have an implication that has not been made sufficiently clear?
+
+Does an explanation lead naturally to a meaningful takeaway?
+
+Do not remove content merely because its value is not immediately obvious.
+
+First determine whether it serves as:
+
+foundation
+
+prerequisite
+
+argument support
+
+conceptual clarification
+
+distinction
+
+transition
+
+preparation for a later idea
+
+==================================================
+
+LENS 5 — READER JOURNEY
+
+Examine the movement of the reader through the content.
+
+Look for:
+
+weak opening
+
+unclear orientation
+
+detours
+
+circular movement
+
+unnecessary repetition
+
+abrupt transitions
+
+premature concepts
+
+insufficient preparation
+
+important ideas appearing too late
+
+weak development
+
+sudden conclusions
+
+disconnected endings
+
+missing bridges between ideas
+
+lack of a natural reason for the next idea
+
+Pay particular attention to:
+
+experience → question
+
+question → question
+
+question → need
+
+need → concept
+
+concept → explanation
+
+explanation → implication
+
+concept → concept
+
+section → section
+
+ending → next beginning
+
+Always distinguish between:
+
+content that is genuinely unnecessary
+
+content that is necessary but currently in the wrong place
+
+content that is necessary but insufficiently prepared
+
+content that is necessary but insufficiently explained
+
+==================================================
+
+LENS 6 — CONTENT FIDELITY & CONCEPTUAL COMPLETENESS
+
+Use this lens when a Dumb Doc or other clearly identified source-content document is provided.
+
+The purpose of this lens is to compare the current content against the Dumb Doc and determine whether the author's substantive intellectual content and conceptual architecture have been faithfully preserved.
+
+Do not treat sentence-by-sentence similarity as the goal.
+
+The goal is preservation of meaning, function, reasoning, conceptual relationships, mechanisms, distinctions, and intended intellectual direction.
+
+The Dumb Doc is the source of the author's substantive content for this comparison.
+
+Check the following:
+
+A. SUBSTANTIVE CONTENT FIDELITY
+
+Identify the important substantive ideas in the Dumb Doc.
+
+For each important idea, determine whether it is:
+
+Preserved
+
+Compressed
+
+Implicit
+
+Weakened
+
+Altered
+
+Missing
+
+Distorted
+
+Ask:
+
+Has any important proposition been omitted?
+
+Has any important explanation been removed?
+
+Has an important interpretation disappeared?
+
+Has an important example or analogy been removed when it performs a necessary conceptual function?
+
+Has an important conclusion been weakened?
+
+Has substantive content been removed merely to improve flow, brevity, symmetry, or neatness?
+
+B. CONCEPTUAL FIDELITY
+
+For every major concept in the Dumb Doc, ask:
+
+What does this concept mean in the Dumb Doc?
+
+What function does it perform?
+
+What does it mean in the current content?
+
+Is the meaning preserved?
+
+Has its scope changed?
+
+Has an important dimension disappeared?
+
+Has a specific concept been replaced by a more generic term?
+
+Has a concept been simplified so much that its original intellectual function is lost?
+
+C. CONCEPTUAL DISTINCTION
+
+Identify important distinctions made in the Dumb Doc.
+
+Ask:
+
+Are the distinctions still present?
+
+Have two separate concepts been merged?
+
+Has one concept been substituted for another?
+
+Has terminology caused two distinct concepts to appear identical?
+
+Has a distinction that is necessary for the argument disappeared?
+
+Pay particular attention when the Dumb Doc distinguishes between concepts that may appear similar on the surface.
+
+Do not assume two concepts are equivalent merely because they can be expressed using similar language.
+
+D. CAUSAL COMPLETENESS
+
+Extract the important causal chains from the Dumb Doc.
+
+For each important chain, check whether the current content preserves:
+
+cause
+
+intermediate condition
+
+mechanism
+
+effect
+
+implication
+
+Ask:
+
+Has an important intermediate step disappeared?
+
+Has a complex causal chain been compressed into a direct claim?
+
+Has “how” disappeared while “what” remains?
+
+Has an effect been retained while the reason for that effect has been removed?
+
+Has a conclusion become unsupported because the reasoning leading to it was omitted?
+
+Use this principle:
+
+If the Dumb Doc contains:
+
+A → B → C → D
+
+and the current content effectively presents:
+
+A → D
+
+check whether B and C were necessary parts of the author's reasoning.
+
+E. MECHANISM & PROCESS FIDELITY
+
+Identify mechanisms and processes that are important to the Dumb Doc.
+
+Ask:
+
+What happens?
+
+How does it happen?
+
+What drives it?
+
+What regulates it?
+
+What sequence does it follow?
+
+Has the mechanism been preserved?
+
+Has it been reduced to a vague statement about the outcome?
+
+Has a regulatory rule disappeared?
+
+Has a process been converted into an unsupported assertion?
+
+Do not treat a mechanism as optional simply because the resulting explanation is shorter without it.
+
+F. AUTHORIAL INTENT & INTELLECTUAL DIRECTION
+
+Ask:
+
+Where did the Dumb Doc intend to take the reader intellectually?
+
+Does the current content lead toward the same destination?
+
+Has the central question changed?
+
+Has the scope of the argument changed?
+
+Has the philosophical, conceptual, analytical, or metaphysical direction changed?
+
+Has the current content introduced an interpretation that was not part of the Dumb Doc?
+
+Has an important authorial position been diluted?
+
+Do not infer a new authorial intention when the Dumb Doc is ambiguous.
+
+Flag ambiguity instead.
+
+G. SCOPE & QUALIFICATION
+
+Compare the scope of claims in the Dumb Doc with the current content.
+
+Check whether:
+
+a possibility has become a certainty
+
+a qualified statement has become universal
+
+a contextual statement has become general
+
+a general statement has been unnecessarily restricted
+
+a nuanced claim has become absolute
+
+H. CONTENT FUNCTION CHECK
+
+When content has been removed or compressed, ask:
+
+What function did it perform in the Dumb Doc?
+
+Was it:
+
+a foundation
+
+a prerequisite
+
+an argument
+
+an explanation
+
+a mechanism
+
+a distinction
+
+an example
+
+an analogy
+
+a transition
+
+a qualification
+
+an implication
+
+a conclusion
+
+a preparation for a later concept
+
+Do not classify content as unnecessary until its function has been considered.
+
+IMPORTANT RULE:
+
+Every substantive idea in the Dumb Doc does not need to appear in exactly the same words or in exactly the same location.
+
+However, every substantive idea must have a clear fate.
+
+If it is absent, determine whether it was legitimately omitted or whether its omission creates a fidelity or completeness problem.
+
+==================================================
+
+DUMB DOC FIDELITY STATUS
+
+For each important substantive element from the Dumb Doc, classify it as:
+
+Preserved
+
+The idea and its intended function remain substantially intact.
+
+Compressed
+
+The idea has been shortened, but its meaning and function remain intact.
+
+Implicit
+
+The idea is not stated directly, but the current content still communicates it adequately.
+
+Weakened
+
+The idea remains, but its force, precision, nuance, or explanatory function has been reduced.
+
+Altered
+
+The idea remains but its meaning, scope, or function has changed.
+
+Missing
+
+The substantive idea is absent.
+
+Distorted
+
+The idea has been represented in a way that materially changes or misrepresents its original meaning.
+
+==================================================
+
+LENS 6 SCORING RUBRIC
+
+Score the following dimensions from 0 to 10:
+
+Substantive Content Fidelity — 20%
+
+Conceptual Fidelity — 20%
+
+Conceptual Distinction — 15%
+
+Causal Completeness — 20%
+
+Mechanism & Process Fidelity — 15%
+
+Authorial Intent & Scope — 10%
+
+Scoring guide:
+
+10 — Complete fidelity; no meaningful substantive or conceptual loss.
+
+9 — Very strong fidelity; minor compression without meaningful loss.
+
+8 — Strong fidelity; some minor omission or weakening.
+
+7 — Generally faithful, but several noticeable weaknesses exist.
+
+6 — Noticeable content loss or conceptual weakening.
+
+5 — Moderate fidelity problem; the thesis remains but the conceptual architecture is incomplete.
+
+4 — Significant omission or distortion.
+
+3 — Major conceptual loss; only part of the original intellectual content survives.
+
+2 — Very low fidelity; the original conceptual architecture is largely absent.
+
+1 — Almost no meaningful correspondence with the Dumb Doc.
+
+0 — Fundamentally absent, incompatible, or reversed.
+
+Calculate a weighted overall score out of 10.
+
+Do not inflate the score merely because the writing is elegant.
+
+Do not lower the score merely because the current content uses different wording.
+
+Judge preservation of substantive meaning and conceptual function.
+
+==================================================
+
+PROBLEM TYPES
+
+Classify observations primarily as:
+
+Content Problem
+
+The content itself needs clarification, development, distinction, qualification, or improvement.
+
+Structure / Placement / Sequence Problem
+
+The content may be valid and useful, but its position, order, context, grouping, transition, or structural role is causing difficulty.
+
+Content–Structure Interaction Problem
+
+The content and structure interact in a way that creates a problem, but the solution should preserve the substantive content while improving how it is presented, positioned, connected, or explained.
+
+Content Fidelity Problem
+
+The current content fails to preserve an important substantive idea, conceptual distinction, causal relationship, mechanism, qualification, or authorial meaning from the Dumb Doc.
+
+Conceptual Completeness Problem
+
+The current content contains the general direction of the Dumb Doc but lacks an important conceptual dependency, reasoning step, mechanism, distinction, or relationship necessary to make the original argument complete.
+
+A finding may involve more than one problem type, but identify the primary type.
+
+==================================================
+
+OBSERVATION FORMAT
+
+For every meaningful observation, provide:
+
+Priority
+
+Lens
+
+Problem Type
+
+Where
+
+Intended Understanding
+
+Actual Reader Understanding
+
+Problem
+
+Why It Matters
+
+Recommended Direction
+
+When Lens 6 is involved, also provide where relevant:
+
+Dumb Doc Element
+
+Current Content Status
+
+Original Function
+
+Fidelity Gap
+
+Do not use this additional information for unrelated lenses.
+
+Use these priority levels:
+
+P1 — Must Fix
+
+A problem that significantly harms clarity, conceptual understanding, reasoning, reader orientation, reader journey, usefulness, depth, intended experience, or preservation of substantive authorial content.
+
+For Lens 6, P1 includes:
+
+missing core concepts
+
+missing central arguments
+
+lost conceptual distinctions
+
+missing essential causal links
+
+missing essential mechanisms
+
+materially altered authorial meaning
+
+major changes in scope
+
+loss of the intended intellectual direction
+
+P2 — Should Fix
+
+A noticeable weakness that reduces effectiveness but does not damage the core message.
+
+For Lens 6, P2 includes:
+
+weakened concepts
+
+partial causal compression
+
+reduced nuance
+
+weakened mechanism explanation
+
+minor conceptual distortion
+
+meaningful but non-foundational omissions
+
+P3 — Nice to Fix
+
+A relatively minor issue involving wording, rhythm, small repetition, stylistic polish, minor clarity, or non-essential content compression.
+
+Do not inflate minor issues into P1 or P2.
+
+==================================================
+
+REVIEW DISCIPLINE
+
+Do not search for problems merely to produce a longer review.
+
+Do not duplicate the same problem under multiple lenses unless the lenses reveal genuinely different consequences.
+
+Prioritize substantive reader impact.
+
+Do not call important content unnecessary without first understanding its function.
+
+Before recommending removal, consider whether the issue can instead be solved through:
+
+relocation
+
+reordering
+
+better context
+
+better explanation
+
+better hierarchy
+
+stronger transition
+
+better introduction
+
+better distinction
+
+repetition management
+
+Do not sacrifice important content to solve a structural problem.
+
+Do not impose your own intellectual direction.
+
+Do not create new arguments.
+
+Do not introduce new substantive content.
+
+Do not rewrite the content.
+
+If the intended meaning is ambiguous and cannot be established reliably, flag the ambiguity rather than inventing an interpretation.
+
+Before recommending a change, consider whether the relevant content may have an important function later in the manuscript.
+
+When a Dumb Doc is provided, do not treat the current manuscript as the sole authority for determining whether its own content is complete.
+
+Cross-check the manuscript against the Dumb Doc.
+
+Do not assume that a concept is preserved merely because a similar word appears in the current content.
+
+Check meaning, function, relationship, mechanism, and scope.
+
+Do not penalize legitimate restructuring if substantive meaning and conceptual relationships remain intact.
+
+Do not demand that every sentence, example, or phrase from the Dumb Doc be retained.
+
+The test is substantive fidelity, not textual duplication.
+
+==================================================
+
+FINAL DIAGNOSTIC SUMMARY
+
+After completing the six-lens review, provide:
+
+P1 — Must Fix
+
+P2 — Should Fix
+
+P3 — Nice to Fix
+
+Content Problems
+
+Structural / Placement / Sequence Problems
+
+Content–Structure Interaction Problems
+
+Content Fidelity Problems
+
+Conceptual Completeness Problems
+
+Intended Understanding Gaps
+
+Authorial Content at Risk
+
+Dumb Doc Elements That Are Missing
+
+Dumb Doc Elements That Are Weakened
+
+Dumb Doc Elements That Are Altered or Distorted
+
+Causal Relationships at Risk
+
+Mechanisms at Risk
+
+Conceptual Distinctions at Risk
+
+Reader Journey Issues
+
+Conceptual Dependency / Sequence Issues
+
+Overall Diagnosis
+
+==================================================
+
+DUMB DOC FIDELITY SUMMARY
+
+When a Dumb Doc is provided, also provide:
+
+Content Fidelity Score: X/10
+
+Substantive Content Fidelity: X/10
+
+Conceptual Fidelity: X/10
+
+Conceptual Distinction: X/10
+
+Causal Completeness: X/10
+
+Mechanism & Process Fidelity: X/10
+
+Authorial Intent & Scope: X/10
+
+Then provide:
+
+Preserved
+
+Compressed
+
+Implicit
+
+Weakened
+
+Altered
+
+Missing
+
+Distorted
+
+Do not force every category to contain an item. Use only categories that actually apply.
+
+==================================================
+
+SUMMARY TABLE
+
+Provide a final table with:
+
+Lens
+
+কী identify করেছে
+
+Problem Type
+
+Priority
+
+Intended Understanding
+
+Actual Reader Issue
+
+কেন গুরুত্বপূর্ণ
+
+Recommended Direction
+
+For Lens 6, include where relevant:
+
+Dumb Doc Element
+
+Current Content Status
+
+Fidelity Gap
+
+==================================================
+
+FINAL RULE
+
+DETECT
+
+→ DIAGNOSE
+
+→ PRIORITIZE
+
+→ RECOMMEND
+
+Do not:
+
+REWRITE
+
+→ ADD NEW CONTENT
+
+→ CREATE A NEW STRUCTURE
+
+→ CHANGE THE AUTHOR'S INTELLECTUAL DIRECTION
+
+When a Dumb Doc is provided, additionally:
+
+CROSS-CHECK
+
+→ VERIFY FIDELITY
+
+→ VERIFY CONCEPTUAL COMPLETENESS
+
+→ IDENTIFY CONTENT AT RISK
+
+→ PROTECT THE AUTHOR'S SUBSTANTIVE CONTENT
+
+CONTENT TO REVIEW
+
+[CONTENT_TO_REVIEW_PLACEHOLDER]
+
+DUMB DOC
+
+[DUMB_DOC_PLACEHOLDER]</div>
+                <div class="action-bar">
+                    <button class="btn-primary" onclick="copyPromptAndInput('prompt1Text')">Copy Prompt + Inputs</button>
+                    <button class="btn-primary" onclick="copyText('prompt1Text')">Copy Prompt Only</button>
+                </div>
+            </div>
+
+            <!-- Prompt #2: Report -->
+            <div id="reportPromptTab" class="tab-pane">
+                <div class="input-header">
+                    <label>Prompt#2 (Name it -> Report)</label>
+                </div>
+                <div class="prompt-box" id="prompt2Text">Using the 6-Lens Manuscript Review you have just completed, convert the identified problems and recommendations into a practical Editing Reference Map.
+
+The purpose of this prompt is execution planning.
+
+The previous review already determined:
+
+what needs attention
+
+why it matters
+
+what type of problem it is
+
+the recommended direction of change
+
+whether important authorial content is at risk
+
+whether the current content faithfully preserves the Dumb Doc
+
+whether any conceptual content, distinction, causal relationship, mechanism, or authorial intent is incomplete or weakened
+
+Do not conduct a new independent review.
+
+Do not create a new editorial agenda.
+
+Do not introduce new criticism.
+
+Do not invent new recommendations.
+
+Do not introduce new substantive content.
+
+Do not create a new argument.
+
+Do not change the author's intellectual direction.
+
+==================================================
+
+CORE RELATIONSHIP
+
+The previous review answers:
+
+WHAT NEEDS ATTENTION?
+
+WHY DOES IT MATTER?
+
+WHAT DIRECTION OF CHANGE IS RECOMMENDED?
+
+WHAT AUTHORIAL CONTENT MUST BE PROTECTED?
+
+WHAT FROM THE DUMB DOC IS AT RISK?
+
+This prompt answers:
+
+WHAT DOES THE WRITER NEED TO DO?
+
+HOW SHOULD THE WRITER APPROACH THE EDIT?
+
+WHAT MUST REMAIN PROTECTED?
+
+WHAT SHOULD BE VERIFIED AFTER EDITING?
+
+==================================================
+
+CONTENT AND DESIGN LOCK
+
+Protect the content's:
+
+Core Topic
+
+Purpose
+
+Structural Role
+
+Substantive Authorial Content
+
+Authorial Proposition
+
+Authorial Intellectual Direction
+
+Intended Reader Understanding
+
+Intended Reader Journey
+
+Conceptual Distinctions
+
+Causal Relationships
+
+Mechanisms
+
+Processes
+
+Important Qualifications
+
+Dumb Doc-derived Substantive Content
+
+Dumb Doc-derived Conceptual Architecture
+
+Do not change these merely because another structure, formulation, or presentation appears more convenient.
+
+The purpose of editing is to help the existing content realize its intended design more effectively.
+
+==================================================
+
+DUMB DOC FIDELITY LOCK
+
+When a Dumb Doc is provided, treat it as the reference for the author's substantive intellectual content.
+
+Do not treat the current manuscript as the sole authority for determining whether its own content is complete.
+
+During editing, protect every substantive Dumb Doc element that the previous review identified as:
+
+Preserved
+
+Compressed
+
+Implicit
+
+Weakened
+
+Altered
+
+Missing
+
+Distorted
+
+The goal is not to reproduce the Dumb Doc sentence by sentence.
+
+The goal is to preserve:
+
+meaning
+
+conceptual function
+
+argument
+
+reasoning
+
+causal relationships
+
+mechanisms
+
+processes
+
+conceptual distinctions
+
+scope
+
+qualifications
+
+authorial intent
+
+intellectual direction
+
+If the previous review identified a substantive element as Weakened, Altered, Missing, or Distorted, convert that finding into an editing action.
+
+Do not invent new content to repair the gap.
+
+Use the Dumb Doc as the source of the author's existing content.
+
+Do not independently expand the idea beyond what is supported by the Dumb Doc and the previous review.
+
+If restoring the content requires a substantive authorial decision, flag it for the author instead of deciding it.
+
+==================================================
+
+CONTENT FIDELITY EDITING ACTIONS
+
+When the previous review identifies a Dumb Doc fidelity problem, determine which action is genuinely required:
+
+Restore
+
+Reinforce
+
+Clarify
+
+Reconnect
+
+Reposition
+
+Reorder
+
+Reintroduce Context
+
+Restore Conceptual Distinction
+
+Restore Causal Link
+
+Restore Mechanism
+
+Restore Qualification
+
+Protect Scope
+
+Verify Fidelity
+
+Flag for Author Decision
+
+Use only the action types genuinely supported by the previous review.
+
+Do not restore content merely because it appeared in the Dumb Doc.
+
+First determine whether its omission was legitimate and whether its substantive function is already preserved elsewhere.
+
+When content is Missing, ask:
+
+Was it substantively necessary?
+
+What function did it perform?
+
+Does its absence make the current argument incomplete?
+
+If yes, identify the minimum editing action needed to restore its function.
+
+When content is Weakened, ask:
+
+What part of its original force, precision, nuance, or function has been lost?
+
+What editing action would restore it without changing the author's direction?
+
+When content is Altered or Distorted, identify what must be brought back into alignment with the Dumb Doc.
+
+Do not silently resolve an ambiguity in favour of your own interpretation.
+
+==================================================
+
+INTENDED UNDERSTANDING LOCK
+
+For each significant editing action, identify:
+
+Intended Understanding
+
+Current Gap
+
+Editing Action
+
+What Must Not Be Lost
+
+Verification
+
+After editing, verify:
+
+Has the intended understanding become clearer?
+
+Has necessary context been preserved?
+
+Has necessary explanation been preserved?
+
+Has the relationship with surrounding ideas become clearer?
+
+Has any important distinction been weakened?
+
+Has any necessary prerequisite been removed?
+
+Has the author's substantive meaning remained intact?
+
+Has the Dumb Doc-derived meaning remained intact?
+
+Has any important causal relationship been weakened?
+
+Has any important mechanism disappeared?
+
+Use this rule:
+
+Edit until the intended understanding is achieved, not until the section feels maximally complete.
+
+Do not recommend continuing to edit merely because more refinement is possible.
+
+==================================================
+
+CONCEPTUAL DEPENDENCY LOCK
+
+If the review identifies:
+
+conceptual dependency problems
+
+premature concepts
+
+late concepts
+
+wrong sequence
+
+missing prerequisite
+
+missing context
+
+weak conceptual transition
+
+missing conceptual foundation
+
+resolve these before language-level polishing.
+
+Use this order unless the previous review explicitly indicates otherwise:
+
+Conceptual Dependency / Placement
+
+→ Structure / Sequence
+
+→ Context / Introduction
+
+→ Explanation
+
+→ Transition
+
+→ Language / Polish
+
+Do not use sentence-level editing to hide a structural or conceptual problem.
+
+Use this rule:
+
+Do not polish a sentence before fixing the structure that makes the sentence necessary.
+
+==================================================
+
+EDITING ACTION MAP
+
+Convert every meaningful recommendation from the previous review into a clear editing action.
+
+Provide a table with:
+
+ক্রম
+
+কোথায়
+
+Review-এ চিহ্নিত সমস্যা
+
+Dumb Doc-এর সঙ্গে সম্পর্ক
+
+বর্তমান Content Status
+
+কী Edit করতে হবে
+
+কীভাবে Edit করতে হবে
+
+কেন Edit করতে হবে
+
+কী অক্ষুণ্ণ রাখতে হবে
+
+Priority
+
+Status
+
+Possible action types include:
+
+Clarify
+
+Tighten
+
+Expand
+
+Reorder
+
+Relocate
+
+Introduce Context
+
+Strengthen Transition
+
+Reduce Repetition
+
+Deepen Explanation
+
+Sharpen Distinction
+
+Restore
+
+Reinforce
+
+Reconnect
+
+Restore Causal Link
+
+Restore Mechanism
+
+Restore Qualification
+
+Protect Scope
+
+Add Implication
+
+Improve Opening
+
+Improve Ending
+
+Improve Reader Orientation
+
+Language Refinement
+
+Remove Redundancy
+
+Protect / Preserve Authorial Content
+
+Verify Fidelity
+
+Flag for Author Decision
+
+Use only the action types genuinely supported by the previous review.
+
+Do not create an action merely because it appears in the list.
+
+In “কীভাবে Edit করতে হবে”, provide direction and editing logic.
+
+Do not write replacement passages.
+
+Do not rewrite the manuscript.
+
+Do not introduce new substantive content.
+
+==================================================
+
+STRUCTURAL-FIRST EDITING
+
+When structural, conceptual, explanation, transition, content-fidelity, and language problems occur together, prioritize them in this order:
+
+1. Conceptual Dependency / Placement
+
+2. Content Fidelity / Conceptual Completeness
+
+3. Structure / Sequence
+
+4. Context / Introduction
+
+5. Explanation
+
+6. Transition
+
+7. Language / Polish
+
+If the previous review explicitly recommends a different order for a specific issue, follow that recommendation.
+
+Structure must remain in service of content.
+
+Do not solve a content-fidelity problem through structural deletion.
+
+Do not solve a structural problem by weakening substantive content.
+
+==================================================
+
+SECTION-BY-SECTION EDITING MAP
+
+For each section covered by the review, provide:
+
+Keep
+
+Change
+
+Add / Expand
+
+Move / Reorder
+
+Tighten / Reduce
+
+Clarify
+
+Transition
+
+Dumb Doc Content to Protect
+
+Conceptual Content to Protect
+
+Reader Understanding to Protect
+
+Conceptual Dependency to Protect
+
+Causal Relationship to Protect
+
+Mechanism to Protect
+
+Authorial Content to Protect
+
+Use “Keep” explicitly when important content should remain unchanged.
+
+Do not assume that every section requires editing.
+
+Do not assume that every section must contain material from the Dumb Doc.
+
+==================================================
+
+AUTHORIAL CONTENT PROTECTION MAP
+
+Identify substantive authorial content that must be protected during editing.
+
+For each important item, specify:
+
+Authorial Content
+
+Source Function
+
+Why It Matters
+
+What May Be Edited
+
+What Must Not Change
+
+Possible Structural Solution
+
+Verification Needed
+
+Before recommending removal or major compression of substantive content, consider whether the problem can instead be solved through:
+
+relocation
+
+better context
+
+better explanation
+
+hierarchy
+
+repetition management
+
+structural space
+
+clearer distinction
+
+stronger transition
+
+Only recommend removal when the previous review clearly supports it.
+
+==================================================
+
+DUMB DOC CONTENT PROTECTION MAP
+
+For each important Dumb Doc element identified as at risk, provide:
+
+Dumb Doc Element
+
+Current Content Status
+
+Original Function
+
+What Has Been Lost
+
+Editing Action
+
+What Must Be Preserved
+
+Verification
+
+Use the status values:
+
+Preserved
+
+Compressed
+
+Implicit
+
+Weakened
+
+Altered
+
+Missing
+
+Distorted
+
+Do not demand textual duplication.
+
+The goal is preservation of substantive meaning and conceptual function.
+
+==================================================
+
+CAUSAL AND MECHANISM PROTECTION MAP
+
+When the previous review identifies a causal relationship or mechanism at risk, provide:
+
+Original Causal / Mechanistic Relationship
+
+Current State
+
+What Is Missing or Weakened
+
+Editing Action
+
+What Must Remain Intact
+
+Verification
+
+Pay particular attention to cases where:
+
+A → B → C → D
+
+has effectively become:
+
+A → D
+
+If B or C was necessary to the author's reasoning, protect it during editing.
+
+Do not invent missing mechanisms.
+
+If the mechanism cannot be restored without an authorial decision, flag it.
+
+==================================================
+
+READER JOURNEY EDITING MAP
+
+Translate the Reader Journey findings into editing actions.
+
+Check:
+
+Opening
+
+Reader Orientation
+
+Context
+
+Concept Preparation
+
+Question-to-Question Movement
+
+Concept-to-Concept Movement
+
+Explanation
+
+Transitions
+
+Repetition
+
+Important Idea Preparation
+
+Ending
+
+Natural Next Question
+
+For every action, explain:
+
+What reader movement is currently difficult?
+
+What editing action should improve it?
+
+What intended content must remain protected?
+
+What Dumb Doc-derived content must remain protected, when applicable?
+
+Do not solve a journey problem by deleting important content merely to make the journey shorter.
+
+==================================================
+
+UNDERSTANDING-BASED EDITING MAP
+
+For every significant understanding gap, provide:
+
+Intended Understanding
+
+Current Gap
+
+Likely Cause
+
+Editing Action
+
+What Must Be Preserved
+
+Stop Condition
+
+The Stop Condition must describe when the writer should stop editing.
+
+Examples:
+
+The reader can explain the concept in their own words.
+
+The reader can explain why the concept matters.
+
+The reader can see the relationship with the preceding idea.
+
+The reader can see why the next idea follows.
+
+The necessary distinction is clear.
+
+The reader can recognize the concept in an appropriate situation.
+
+The original causal relationship remains understandable.
+
+The original mechanism remains understandable.
+
+The Dumb Doc-derived concept remains substantively faithful.
+
+Do not recommend continuing to edit merely to make the section feel more polished.
+
+==================================================
+
+AUTHOR DECISION FLAGS
+
+Identify any point where editing requires a substantive authorial choice.
+
+Flag rather than decide when the choice concerns:
+
+meaning
+
+interpretation
+
+philosophical position
+
+argument direction
+
+degree of claim
+
+metaphysical claim
+
+important conceptual distinction
+
+removal of substantive content
+
+restoration of ambiguous Dumb Doc content
+
+change in intended reader understanding
+
+change in chapter purpose
+
+change in intellectual direction
+
+change in scope
+
+change in qualification
+
+For each such point provide:
+
+Author Decision Needed
+
+Issue
+
+Dumb Doc Context, when relevant
+
+Why the existing review does not provide enough basis to decide
+
+Possible Choices
+
+What the writer should decide
+
+Do not select the substantive choice yourself.
+
+==================================================
+
+FINAL EDITING SEQUENCE
+
+Create a practical numbered editing sequence based only on the recommendations in the previous review.
+
+Prioritize broadly in this order:
+
+P1 Conceptual Dependency / Fidelity
+
+→ P1 Structural / Content
+
+→ P1 Understanding
+
+→ P2 Conceptual / Structural
+
+→ P2 Content / Explanation
+
+→ P2 Transition
+
+→ P3 Language / Polish
+
+If the previous review indicates that another order is necessary, follow it.
+
+The sequence should allow the writer to begin editing immediately.
+
+==================================================
+
+EDITING INTEGRITY CHECK
+
+Before completing the Editing Reference Map, verify:
+
+Have all meaningful recommendations from the previous review been converted into actions?
+
+Has any important recommendation been omitted?
+
+Have any new criticisms been introduced?
+
+Has any new editorial agenda been introduced?
+
+Has the Core Topic remained unchanged?
+
+Has the Intended Reader Understanding remained unchanged?
+
+Has the Intended Reader Journey remained unchanged?
+
+Has substantive authorial content remained protected?
+
+Has the Dumb Doc-derived substantive content remained protected?
+
+Have important Dumb Doc concepts been accounted for?
+
+Have Missing, Weakened, Altered, or Distorted Dumb Doc elements been addressed?
+
+Have conceptual dependencies been preserved?
+
+Have causal relationships been preserved?
+
+Have mechanisms been preserved?
+
+Have important conceptual distinctions been preserved?
+
+Have structural problems been separated from content problems?
+
+Has structure remained in service of content?
+
+Has language polishing been prevented from masking structural problems?
+
+Has necessary explanation been protected?
+
+Has ambiguity been flagged rather than silently resolved?
+
+Has the editing plan avoided introducing new substantive content?
+
+Can the writer now use this map as a practical editing guide?
+
+==================================================
+
+FINAL CONSOLIDATED EDITING TABLE
+
+Provide one final consolidated table with:
+
+ক্রম
+
+কোথায়
+
+কী সমস্যা
+
+Dumb Doc-এর সঙ্গে সম্পর্ক
+
+বর্তমান Content Status
+
+কী Edit করতে হবে
+
+Edit-এর ধরন
+
+কীভাবে Edit করতে হবে
+
+কেন করতে হবে
+
+Intended Understanding to Protect
+
+Dumb Doc Content to Protect
+
+কী অক্ষুণ্ণ রাখতে হবে
+
+Priority
+
+Status
+
+Use these status values:
+
+☐ Not Started
+
+☐ In Progress
+
+✓ Done
+
+==================================================
+
+FINAL RULE
+
+This prompt converts diagnosis into execution.
+
+It does not perform a new review.
+
+It does not rewrite the manuscript.
+
+It does not add new substantive content.
+
+It does not create a new argument.
+
+It does not change the author's intellectual direction.
+
+It does not change the intended reader understanding.
+
+It does not silently resolve authorial ambiguity.
+
+It does not treat textual similarity as content fidelity.
+
+Its sole purpose is:
+
+6-Lens Diagnosis
+
+→ Editing Actions
+
+→ Protection Requirements
+
+→ Verification Conditions
+
+→ Practical Editing Sequence
+
+Final principle:
+
+Edit the manuscript to better realize its intended design, not to replace that design with a new one.
+
+When a Dumb Doc is provided:
+
+Protect the author's substantive content.
+
+Protect the author's conceptual architecture.
+
+Protect important distinctions.
+
+Protect causal relationships.
+
+Protect mechanisms.
+
+Protect scope and qualification.
+
+Restore only what the previous review has established as necessary.
+
+Do not invent what the Dumb Doc does not establish.</div>
+                <div class="action-bar">
+                    <button class="btn-primary" onclick="copyText('prompt2Text')">Copy Prompt Only</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Copied to clipboard successfully!</div>
+
+    <footer>
+        Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.
+    </footer>
+
+    <script>
+        function switchTab(group, tabId, buttonElement) {
+            // Determine container based on group ('input' or 'prompt')
+            const container = group === 'input' ? document.getElementById('inputNav') : document.getElementById('promptNav');
+            const parentCard = container.closest('.card');
+            
+            // Remove active from all nav buttons in this group
+            container.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            // Add active to clicked button
+            buttonElement.classList.add('active');
+
+            // Hide all tab panes in this card
+            parentCard.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            // Show target tab pane
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function clearInput(inputId) {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.value = '';
+                showToast('Input cleared successfully!');
+            }
+        }
+
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Prompt copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        function copyPromptAndInput(elementId) {
+            const promptText = document.getElementById(elementId).innerText;
+            const contentToReview = document.getElementById('contentToReviewInput').value;
+            const dumbDoc = document.getElementById('dumbDocInput').value;
+
+            let finalContent = promptText;
+            
+            // Replace placeholders in prompt if present, or append them
+            if (finalContent.includes('[CONTENT_TO_REVIEW_PLACEHOLDER]')) {
+                finalContent = finalContent
+                    .replace('[CONTENT_TO_REVIEW_PLACEHOLDER]', contentToReview || '[No content provided]')
+                    .replace('[DUMB_DOC_PLACEHOLDER]', dumbDoc || '[No Dumb Doc provided]');
+            } else {
+                finalContent += "\n\n==================================================\nCONTENT TO REVIEW\n\n" + (contentToReview || '[No content provided]') +
+                                "\n\nDUMB DOC\n\n" + (dumbDoc || '[No Dumb Doc provided]');
+            }
+
+            navigator.clipboard.writeText(finalContent).then(() => {
+                showToast('Prompt with inputs copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

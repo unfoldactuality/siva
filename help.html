@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: #f4f6f8;
+    color: #1f2937;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+  }
+
+  .page {
+    width: min(100%, 1100px);
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  .page-header {
+    margin: 0 0 18px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #d9dee5;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  }
+
+  .page-header h1 {
+    margin: 0;
+    font-size: clamp(24px, 5vw, 34px);
+    line-height: 1.2;
+  }
+
+  .section-box {
+    width: 100%;
+    margin: 0 0 18px;
+    padding: clamp(16px, 4vw, 24px);
+    background: #ffffff;
+    border: 1px solid #d9dee5;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    overflow-wrap: anywhere;
+  }
+
+  .section-title {
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e5e7eb;
+    font-size: clamp(20px, 4.5vw, 28px);
+    line-height: 1.3;
+  }
+
+  .step-box {
+    margin: 14px 0;
+    padding: 15px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+  }
+
+  .step-title {
+    margin: 0 0 10px;
+    font-size: clamp(17px, 4vw, 21px);
+    line-height: 1.4;
+  }
+
+  .file-box {
+    margin: 10px 0;
+    padding: 12px 14px;
+    background: #ffffff;
+    border-left: 4px solid #64748b;
+    border-radius: 7px;
+  }
+
+  .item-list {
+    margin: 8px 0 0;
+    padding-left: 22px;
+  }
+
+  .item-list li {
+    margin: 5px 0;
+  }
+
+  .or {
+    margin: 10px 0;
+    font-weight: 700;
+    text-align: center;
+    color: #64748b;
+  }
+
+  .file-name {
+    font-weight: 700;
+  }
+
+  @media (max-width: 600px) {
+    .page {
+      padding: 10px;
+    }
+
+    .page-header,
+    .section-box {
+      border-radius: 10px;
+    }
+
+    .step-box {
+      padding: 12px;
+    }
+
+    .item-list {
+      padding-left: 20px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .page {
+      padding: 8px;
+    }
+
+    .page-header,
+    .section-box {
+      padding: 14px;
+    }
+
+    .step-box {
+      padding: 10px;
+    }
+  }
+</style>
+</head>
+
+<body>
+<main class="page">
+
+  <header class="page-header">
+    <h1>Help</h1>
+  </header>
+
+  <section class="section-box">
+    <h2 class="section-title">Section#1: SOURCE</h2>
+
+    <div class="step-box">
+      <h3 class="step-title">Step#1: Analyze Source</h3>
+
+      <div class="file-box">
+        <strong>[1] Source Analysis</strong>
+      </div>
+
+      <div class="or">OR</div>
+
+      <div class="file-box">
+        <strong>[1] Source Analysis (NBLM)</strong>
+        <ol class="item-list">
+          <li>Identify Issue</li>
+          <li>Identify Solution</li>
+          <li>Identify PSR</li>
+          <li>Table</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <h3 class="step-title">Step#2: Analyze PSR and Unfold Reasoning</h3>
+
+      <div class="file-box">
+        <strong>[2] process-n-reasoning.html:</strong>
+        <ol class="item-list">
+          <li>what's the solution</li>
+          <li>process</li>
+          <li>Unfolding the Reason</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <h3 class="step-title">Step#3: Create Manually Core Message</h3>
+    </div>
+  </section>
+
+  <section class="section-box">
+    <h2 class="section-title">Section#2: DUMB DOC</h2>
+
+    <div class="step-box">
+      <h3 class="step-title">Step#4: Create Manually Dumb Doc</h3>
+    </div>
+  </section>
+
+  <section class="section-box">
+    <h2 class="section-title">Section#3: POST DUMB DOC -&gt; Plan FD</h2>
+
+    <div class="step-box">
+      <div class="file-box">
+        <strong>[3] index.html:</strong>
+        <div>Dumb Doc + Requirement</div>
+      </div>
+
+      <div class="file-box">
+        <strong>[4] identify.html (Requirement)</strong>
+        <div>Requirement (for first prompt in index.html)</div>
+      </div>
+
+      <div class="file-box">
+        <strong>[5] dd-rqmt-fu.html (Requirement1)</strong>
+        <div>As standalone for next prompts</div>
+      </div>
+
+      <div class="file-box">
+        <strong>[6] review.html</strong>
+        <ol class="item-list">
+          <li>Review this structure and ensure that it strictly adheres my style and tone</li>
+          <li>Outline</li>
+          <li>Review this outline and ensure that it strictly adheres my style and tone</li>
+          <li>Entry Question → Required Reasoning → Intermediate Realisation → Insufficiency → Exit Question map তৈরি করো</li>
+          <li>Table</li>
+          <li>Table in HTML</li>
+        </ol>
+      </div>
+
+      <div class="file-box">
+        <strong>[7] book.html</strong>
+        <div>Prompt#3: Terminology Chapter</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box">
+    <h2 class="section-title">Section#4: Create Manually FD</h2>
+  </section>
+
+  <section class="section-box">
+    <h2 class="section-title">Section#5: POST FD -&gt; Plan FC</h2>
+
+    <div class="step-box">
+      <div class="file-box">
+        <strong>[8] 6l.html</strong>
+        <ol class="item-list">
+          <li>Review</li>
+          <li>Report</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

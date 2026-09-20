@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process And Reason Mapping</title>
+    <link rel```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Process And Reason Mapping</title>
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --border-color: #e2e8f0;
+      --code-bg: #0f172a;
+      --code-text: #f1f5f9;
+      --success: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+      flex: 1;
+      width: 100%;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+
+    .prompt-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f1f5f9;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .copy-btn {
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .copy-btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .copy-btn:active {
+      transform: scale(0.98);
+    }
+
+    .copy-btn.copied {
+      background-color: var(--success);
+    }
+
+    .prompt-body {
+      padding: 20px;
+      background-color: #ffffff;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.925rem;
+      line-height: 1.6;
+      color: #1e293b;
+      margin: 0;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 24px 20px;
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      background-color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Process And Reason Mapping</h1>
+    </header>
+
+    <main class="prompt-stack">
+      <!-- Prompt Card 1 -->
+      <section class="prompt-card">
+        <div class="card-header">
+          <span class="card-title">Prompt #1</span>
+          <button class="copy-btn" onclick="copyPrompt('prompt-1', this)">Copy Prompt</button>
+        </div>
+        <div class="prompt-body">
+          <pre id="prompt-1">Answer the following prompt in Bengali (India).
+
+Rules:
+- Use only Bengali (India).
+- Always address the reader as "আপনি".
+- Never use "তুমি" or "তুই".
+- Use a natural Kolkata-style conversational tone.
+- Use natural, modern Bengali (India).
+- Avoid Bangladeshi vocabulary, spelling, and expressions.
+
+PROMPT
+
+What is the solution to this issue?</pre>
+        </div>
+      </section>
+
+      <!-- Prompt Card 2 -->
+      <section class="prompt-card">
+        <div class="card-header">
+          <span class="card-title">Prompt #2</span>
+          <button class="copy-btn" onclick="copyPrompt('prompt-2', this)">Copy Prompt</button>
+        </div>
+        <div class="prompt-body">
+          <pre id="prompt-2">Answer the following prompt in Bengali (India).
+
+Rules:
+- Use only Bengali (India).
+- Always address the reader as "আপনি".
+- Never use "তুমি" or "তুই".
+- Use a natural Kolkata-style conversational tone.
+- Use natural, modern Bengali (India).
+- Avoid Bangladeshi vocabulary, spelling, and expressions.
+
+PROMPT
+
+Describe the process for implementing this solution as a step-by-step activity.</pre>
+        </div>
+      </section>
+
+      <!-- Prompt Card 3 -->
+      <section class="prompt-card">
+        <div class="card-header">
+          <span class="card-title">Prompt #3</span>
+          <button class="copy-btn" onclick="copyPrompt('prompt-3', this)">Copy Prompt</button>
+        </div>
+        <div class="prompt-body">
+          <pre id="prompt-3">Answer the following prompt in Bengali (India).
+
+Rules:
+- Use only Bengali (India).
+- Always address the reader as "আপনি".
+- Never use "তুমি" or "তুই".
+- Use a natural Kolkata-style conversational tone.
+- Use natural, modern Bengali (India).
+- Avoid Bangladeshi vocabulary, spelling, and expressions.
+
+PROMPT
+
+Why is this an effective solution to the issue? Establish why this is an effective solution to the issue by unfolding the reasoning through a logical hierarchy of questions and their counter-questions.</pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.
+  </footer>
+
+  <script>
+    function copyPrompt(elementId, button) {
+      const textToCopy = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalText = button.innerText;
+        button.innerText = 'Copied!';
+        button.classList.add('copied');
+        setTimeout(() => {
+          button.innerText = originalText;
+          button.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    }
+  </script>
+
+</body>
+</html>

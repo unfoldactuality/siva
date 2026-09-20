@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent: #0ea5e9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Prompt Display Box */
+        .prompt-box {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.65rem 1.25rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #10b981;
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            display: none;
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(1rem); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            .card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Book</h1>
+            <p>Editorial Book Structuring & Generation System</p>
+        </header>
+
+        <!-- PROMPT SECTION 1 -->
+        <div class="card">
+            <div class="section-title">Prompt#1</div>
+            <div class="prompt-box" id="prompt1">তাহলে এখানে এসে আমরা কি কনটেন্টটাকে একটা পূর্ণ শর্ট বুকের রূপ দিতে পারি? এক একটা সেকসেনকে এক একটা পূর্ণ অধ্যায় হিসেবে ব্যবহার করে?</div>
+            <div class="action-bar">
+                <button class="btn-primary" onclick="copyText('prompt1')">Copy Prompt Only</button>
+            </div>
+        </div>
+
+        <!-- PROMPT SECTION 2 -->
+        <div class="card">
+            <div class="section-title">Prompt#2</div>
+            <div class="prompt-box" id="prompt2">সবগুলি অধ্যায়ের জন্য একটি পূর্ণ Chapter Development Map তৈরি করুন—প্রতিটি অধ্যায়ের কেন্দ্রীয় প্রশ্ন, মূল ধারণা, পর্যবেক্ষণ, ব্যাখ্যামূলক মডেল, উদাহরণ, সীমাবদ্ধতা, অধ্যায়ের উপসংহার এবং পরের অধ্যায়ে যাওয়ার সেতু সহ।</div>
+            <div class="action-bar">
+                <button class="btn-primary" onclick="copyText('prompt2')">Copy Prompt Only</button>
+            </div>
+        </div>
+
+        <!-- PROMPT SECTION 3 -->
+        <div class="card">
+            <div class="section-title">Prompt#3</div>
+            <div class="prompt-box" id="prompt3">আমি আর একটা অধ্যায় শেষে যোগ করতে চাই - একটি Reference Chapter / Terminology Chapter হিসেবে - সংজ্ঞা গুলো পরিভাষাগুলোর মূল সম্পর্ক সহ, বাংলা প্রতিশব্দ আগে এবং ইংরেজি পরে রেখে একটি চূড়ান্ত, একরূপ পরিভাষার তালিকা; প্রতিটি শব্দের সংক্ষিপ্ত সংজ্ঞাসহ।</div>
+            <div class="action-bar">
+                <button class="btn-primary" onclick="copyText('prompt3')">Copy Prompt Only</button>
+            </div>
+        </div>
+
+        <!-- PROMPT SECTION 4 -->
+        <div class="card">
+            <div class="section-title">Prompt#4</div>
+            <div class="prompt-box" id="prompt4">Define the book’s central promise earlier - এই জন্য ভূমিকা অধ্যায়ের একটি পূর্ণ খসড়া লিখুন</div>
+            <div class="action-bar">
+                <button class="btn-primary" onclick="copyText('prompt4')">Copy Prompt Only</button>
+            </div>
+        </div>
+
+        <!-- PROMPT SECTION 5 -->
+        <div class="card">
+            <div class="section-title">Prompt#5</div>
+            <div class="prompt-box" id="prompt5">আমার বইয়ের প্রতিশ্রুতি আরও নির্দিষ্ট করুন</div>
+            <div class="action-bar">
+                <button class="btn-primary" onclick="copyText('prompt5')">Copy Prompt Only</button>
+            </div>
+        </div>
+
+        <!-- PROMPT SECTION 6 -->
+        <div class="card">
+            <div class="section-title">Prompt#6</div>
+            <div class="prompt-box" id="prompt6">ভূমিকা অধ্যায়টি পুনর্লিখুন এবং শুরুতেই এই নির্দিষ্ট কেন্দ্রীয় প্রতিশ্রুতি বসান: “এই বই আপনাকে বুঝতে সাহায্য করবে কেন কোনও সাফল্য অর্জন করার পরেও তা ধরে রাখা যায় না, এবং নিজের কাজ যে বৃহত্তর ব্যবস্থার অংশ হিসেবে কাজ করে, সেটিকে বুঝে কীভাবে সাফল্যকে আরও স্থায়ী করার ভিত্তি তৈরি করা যায়।”</div>
+            <div class="action-bar">
+                <button class="btn-primary" onclick="copyText('prompt6')">Copy Prompt Only</button>
+            </div>
+        </div>
+
+        <!-- PROMPT SECTION 7 -->
+        <div class="card">
+            <div class="section-title">Prompt#7</div>
+            <div class="prompt-box" id="prompt7">Chapter 1: “আমি যা চাই, তা পেলেই কি আমি সত্যিই ভালো থাকব?”—এই অধ্যায়ের একটি পূর্ণ খসড়া লিখুন, যেখানে Observation → Explanation → Example → Limitation → Chapter Insight → Next Question কাঠামো থাকবে এবং নির্ধারিত ইংরেজি পরিভাষাগুলো একইভাবে বজায় থাকবে।</div>
+            <div class="action-bar">
+                <button class="btn-primary" onclick="copyText('prompt7')">Copy Prompt Only</button>
+            </div>
+        </div>
+
+        <!-- PROMPT SECTION 8 -->
+        <div class="card">
+            <div class="section-title">Prompt#8</div>
+            <div class="prompt-box" id="prompt8">এই অধ্যায়ের বানান, যতিচিহ্ন, বাক্যগঠন এবং পুনরাবৃত্তি পরীক্ষা করে শুধু প্রয়োজনীয় সংশোধনসহ একটি পরিষ্কার চূড়ান্ত সংস্করণ দিন। 
+RULE (MANDATORY)
+Don't use any horizontal lines and dividers.</div>
+            <div class="action-bar">
+                <button class="btn-primary" onclick="copyText('prompt8')">Copy Prompt Only</button>
+            </div>
+        </div>
+
+        <!-- PROMPT SECTION 9 -->
+        <div class="card">
+            <div class="section-title">Prompt#9</div>
+            <div class="prompt-box" id="prompt9">চূড়ান্ত কনটেন্টের সাবটাইটেলে এইগুলো ব্যবহার করা প্রফেশনাল ওয়ার্ক হবে?:
+**৩. উদাহরণ (Example):** —এই ধরনের লেবেল
+আমার মনে হয়, পাঠকদের জন্য এগুলো নাহলেই তাদের রিডিং আরও smooth হবে</div>
+            <div class="action-bar">
+                <button class="btn-primary" onclick="copyText('prompt9')">Copy Prompt Only</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Copied to clipboard successfully!</div>
+
+    <footer>
+        Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.
+    </footer>
+
+    <script>
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Prompt copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

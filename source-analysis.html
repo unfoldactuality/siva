@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Source Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #064e3b; 
+      --bg-gradient-end: #020617;
+      --card-bg: rgba(16, 185, 129, 0.05);
+      --card-border: rgba(16, 185, 129, 0.2);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-heading: #ffffff;
+      --accent-primary: #10b981; 
+      --accent-hover: #34d399;
+      --accent-success: #059669;
+      --code-bg: rgba(0, 0, 0, 0.4);
+      --shadow-color: rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+
+    .prompts-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-primary);
+    }
+
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .prompt-label::after {
+      content: "";
+      height: 1px;
+      flex-grow: 1;
+      background: var(--card-border);
+    }
+
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.95rem;
+      color: #ecfdf5;
+      line-height: 1.5;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .copy-button {
+      align-self: flex-end;
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+
+    .icon { width: 18px; height: 18px; }
+    .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+
+    footer {
+        margin-top: 80px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Source Analysis</h1>
+    </header>
+
+    <main class="prompts-stack">
+      
+      <!-- Prompt #1 -->
+      <div class="prompt-card">
+        <div class="prompt-label">identify issue</div>
+        <pre id="prompt1" class="prompt-text">Answer the following prompt in Bengali (India).
+
+Rules:
+- Use only Bengali (India).
+- Always address the reader as "আপনি".
+- Never use "তুমি" or "তুই".
+- Use a natural Kolkata-style conversational tone.
+- Use natural, modern Bengali (India).
+- Avoid Bangladeshi vocabulary, spelling, and expressions.
+
+PROMPT
+Review the content of the uploaded document and identify the reader's issue that it addresses.</pre>
+        <button class="copy-button" onclick="copyText('prompt1', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt #2 -->
+      <div class="prompt-card">
+        <div class="prompt-label">identify solution</div>
+        <pre id="prompt2" class="prompt-text">Answer the following prompt in Bengali (India).
+
+Rules:
+- Use only Bengali (India).
+- Always address the reader as "আপনি".
+- Never use "তুমি" or "তুই".
+- Use a natural Kolkata-style conversational tone.
+- Use natural, modern Bengali (India).
+- Avoid Bangladeshi vocabulary, spelling, and expressions.
+
+PROMPT
+Does it provide a solution to the reader's issue? If yes, what is that solution?</pre>
+        <button class="copy-button" onclick="copyText('prompt2', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt #3 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Identify PSR</div>
+        <pre id="prompt3" class="prompt-text">Answer the following prompt in Bengali (India).
+
+Rules:
+- Use only Bengali (India).
+- Always address the reader as "আপনি".
+- Never use "তুমি" or "তুই".
+- Use a natural Kolkata-style conversational tone.
+- Use natural, modern Bengali (India).
+- Avoid Bangladeshi vocabulary, spelling, and expressions.
+
+PROMPT
+What is the process, mechanism, or structure through which that solution functions? What is the objective outcome resulting from that functioning?</pre>
+        <button class="copy-button" onclick="copyText('prompt3', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+      <!-- Prompt #4 -->
+      <div class="prompt-card">
+        <div class="prompt-label">Required Analysis Format</div>
+        <pre id="prompt4" class="prompt-text">Answer the following prompt in Bengali (India).
+
+Rules:
+- Use only Bengali (India).
+- Always address the reader as "আপনি".
+- Never use "তুমি" or "তুই".
+- Use a natural Kolkata-style conversational tone.
+- Use natural, modern Bengali (India).
+- Avoid Bangladeshi vocabulary, spelling, and expressions.
+
+PROMPT
+Present the analysis in the following four-part structure:
+Section | Analysis
+1. Reader’s Issue | Identify the specific issue, problem, difficulty, or unmet need of the reader that the content addresses.
+2. Proposed Solution | Determine whether the content provides a solution to that issue. If yes, clearly identify and state the solution. If no, state that no explicit solution is provided.
+3. Functioning of the Solution | Analyse how the proposed solution functions. Identify its Process, Mechanism, and Structure, and explain how these elements work together to produce the intended effect.
+4. Objective Outcome | Identify the objective outcome that results from the functioning of the solution. State what objectively changes, happens, or becomes possible as a result.
+Analysis Rules
+Base the analysis strictly on the content of the uploaded document.
+Do not introduce ideas, solutions, mechanisms, or outcomes that are not supported by the document.
+Clearly distinguish between what the document explicitly states and what can be reasonably inferred from it.
+If any element cannot be identified from the document, state “Not identifiable from the document” rather than guessing.
+Do not evaluate whether the solution is effective or desirable unless the document itself provides sufficient evidence for such an assessment.</pre>
+        <button class="copy-button" onclick="copyText('prompt4', this)">
+          <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+          <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <span class="button-text">Copy Prompt</span>
+        </button>
+      </div>
+
+    </main>
+
+    <footer>
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = btn.querySelector('.button-text');
+        const prevText = btnText.textContent;
+        btnText.textContent = 'Copied!';
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btnText.textContent = prevText;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
